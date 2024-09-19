@@ -1,18 +1,18 @@
 <?php
 
 const numOfOrder = 4;
+const numOfProducts = 3; #I added this so I can use this value instead of hard coding it
 const developer = "Ian";
 const appID = "300373688";
 const min_amount = 0;
 const max_amount = 10;
 const tax_percentage = 0.12;
 
-$items = 
+$price = 
 [
-    ["Item" => "Item A", "Price" => 30],
-    ["Item" => "Item B", "Price" => 30],
-    ["Item" => "Item C", "Price" => 40],
+    30, 30, 40
 ];
+
 #value testing
 // foreach ($items as $key)
 // {
