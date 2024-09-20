@@ -20,7 +20,7 @@ function generateOrder()
 {
     $orderData = [];
 
-    for ($h = 1; $h <= numbOfOrder; $h++)
+    for ($h = 1; $h <= numOfOrder; $h++)
     {
         $productOrd = [];
         
@@ -33,16 +33,43 @@ function generateOrder()
         $orderset = 
         [
             "id" => "Order_{$h}",
-            "amount" => $productOrd
+            "amount" => $productOrd,
         ];
+        Array_push($orderData, $orderset);
+    }
+    #Value testing
+    // foreach($orderData as $order)
+    // {
+    //     var_dump($order);
+    // }
+    return $orderData;
+}
 
+// generateOrder();
+
+function calculateAndPrintOrder($orderData, $price, $discountThreshold)
+{
+    $orderSubTotal = [];
+    $ordercount = 0;
+    for ($i = 0; $i<count($orderData); $i++)
+    {
+        for ($h = 0; $h <count($orderData[$i]['amount']); $h++)
+        {
+            $orderSubTotal[] = $orderData[$i]['amount'][$h] * $price[$h];
+           
+        }
+        
+    }
+
+    foreach($orderSubTotal as $sub)
+    {
+        echo $sub, "\n";
     }
 
 }
-function calculateAndPrintOrder($orderData, $price, $discountThreshold)
-{
+$orderData = generateOrder();
+calculateAndPrintOrder($orderData, $price,$discountThreshold);
 
-}
 function getDiscountedPercentage($subtotal, $discountThreshold)
 {
 
