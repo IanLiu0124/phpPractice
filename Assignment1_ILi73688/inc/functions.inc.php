@@ -7,7 +7,7 @@ function getHeader()
     {
         echo "-";
     }
-    echo "\n\n\t\tProduct Order Calcualtor app by", developer, "(", appID,")\n\n";
+    echo "\n\n\t\tProduct Order Calcualtor app by ", developer, "(", appID,")\n\n";
     for ($i = 0; $i < 80; $i++)
     {
         echo "-";
