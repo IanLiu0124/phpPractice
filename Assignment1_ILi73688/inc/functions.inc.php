@@ -44,39 +44,82 @@ function generateOrder()
     // }
     return $orderData;
 }
-
+function getSubTotal($order, $price)
+{
+    return $order * $price;
+}
 // generateOrder();
 
 function calculateAndPrintOrder($orderData, $price, $discountThreshold)
 {
-    $orderSubTotal = [];
-    $ordercount = 0;
-    for ($i = 0; $i<count($orderData); $i++)
+    
+    for ($i = 0; $i<numOfOrder; $i++)
     {
+        $orderData[$i]['subtotal']= 0;
+        $orderData[$i]['discount']= 0;
+        $orderData[$i]['totalCost'] = 0;
         for ($h = 0; $h <count($orderData[$i]['amount']); $h++)
         {
-            $orderSubTotal[] = $orderData[$i]['amount'][$h] * $price[$h];
-           
+            $orderData[$i]['subtotal']+= getSubTotal($orderData[$i]['amount'][$h], $price[$h]);
+            
         }
+        $orderData[$i]['discount'] = getDiscountedPercentage($orderData[$i]['subtotal'], $discountThreshold);
+        $orderData[$i]['totalCost'] = $orderData[$i]['subtotal'] * (1 - $orderData[$i]['discount'] ) * (1 + tax_percentage);
         
+        // array_push($orderData, $subtotal);
     }
-
-    foreach($orderSubTotal as $sub)
+    // $orderData = getSubTotal($orderData, $price);
+    
+    
+    echo "Order\t\t\tProduct A\t\t\tProduct B\t\t\tProduct C\t\t\tDiscount\t\t\tSubTotal\n";
+    for ($i = 0; $i < numOfOrder; $i++)
     {
-        echo $sub, "\n";
+            echo "{$orderData[$i]['id']}\t\t\t{$orderData[$i]['amount'][0]}\t\t\t\t{$orderData[$i]['amount'][1]}\t\t\t\t{$orderData[$i]['amount'][2]}\t\t\t\t%{$orderData[$i]['discount']}\t\t\t\t$". number_format((float)$orderData[$i]['totalCost'], 2) . "\n\n";    
     }
+    // foreach($orderData as $data)
+    // {
+    //     var_dump($data);
+    // }
 
 }
-$orderData = generateOrder();
-calculateAndPrintOrder($orderData, $price,$discountThreshold);
 
-function getDiscountedPercentage($subtotal, $discountThreshold)
+
+function getDiscountedPercentage($amount, $discountThreshold)
 {
+        $discount = 0;
+        foreach ($discountThreshold as $threshold => $rate)
+        {
+            if($amount > $threshold)
+            {
+                $discount = $rate;
+            }
+        }
+        return $discount;
 
 }
 
-function getSubTotal($amount, $price)
+function start($price,$discountThreshold)
 {
+    getHeader();
+    $orderData =generateOrder();
+    calculateAndPrintOrder($orderData, $price,$discountThreshold);
+    $count = 1;
+    echo "Would you like to repeat another session? y/n: ";
+    $userInput = stream_get_line(STDIN,1024,PHP_EOL);
 
+    while(strtolower($userInput) == 'y')
+    {
+        $count++;
+        getHeader();
+        $orderData =generateOrder();
+        calculateAndPrintOrder($orderData, $price,$discountThreshold);
+        $userInput = stream_get_line(STDIN,1024,PHP_EOL);
+    }
+    echo "You've ran the program {$count} times! Goodbye!";
 }
+
+
+
+// $orderData = generateOrder();
+// calculateAndPrintOrder($orderData, $price,$discountThreshold);
 ?>
