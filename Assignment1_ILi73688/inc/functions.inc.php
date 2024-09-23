@@ -26,7 +26,7 @@ function generateOrder()
         
         for ( $i = 1 ;$i <= numOfProducts; $i++)
         {
-            $randomOrders = rand(1, 4);
+            $randomOrders = rand(min_amount, max_amount);
             array_push($productOrd, $randomOrders);
         }        
 
@@ -71,10 +71,10 @@ function calculateAndPrintOrder($orderData, $price, $discountThreshold)
     // $orderData = getSubTotal($orderData, $price);
     
     
-    echo "Order\t\t\tProduct A\t\t\tProduct B\t\t\tProduct C\t\t\tDiscount\t\t\tSubTotal\n";
+    echo "Order\t\tProduct A\t\tProduct B\t\tProduct C\t\tDiscount\t\tSubTotal\n";
     for ($i = 0; $i < numOfOrder; $i++)
     {
-            echo "{$orderData[$i]['id']}\t\t\t{$orderData[$i]['amount'][0]}\t\t\t\t{$orderData[$i]['amount'][1]}\t\t\t\t{$orderData[$i]['amount'][2]}\t\t\t\t%{$orderData[$i]['discount']}\t\t\t\t$". number_format((float)$orderData[$i]['totalCost'], 2) . "\n\n";    
+            echo "{$orderData[$i]['id']}\t\t{$orderData[$i]['amount'][0]}\t\t\t{$orderData[$i]['amount'][1]}\t\t\t{$orderData[$i]['amount'][2]}\t\t\t%{$orderData[$i]['discount']}\t\t\t$". number_format((float)$orderData[$i]['totalCost'], 2) . "\n\n";    
     }
     // foreach($orderData as $data)
     // {
